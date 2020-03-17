@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="foo">
+<!--        标签不能乱写-->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+<!--                                                                                    可以加一个&amp;，不然报错-->
+        <property name="connection.url">jdbc:mysql://localhost:3306/struts2?useUnicode=true&amp;characterEncoding=UTF-8</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+
+<!--        数据库方言-->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+<!--        显示sql语句，是指令方式，还有图形方式-->
+        <property name="show_sql">true</property>
+
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+<!--        解析持久化文件-->
+        <mapping resource="com/zcx/Users.hbm.xml"></mapping>
+
+    </session-factory>
+</hibernate-configuration>

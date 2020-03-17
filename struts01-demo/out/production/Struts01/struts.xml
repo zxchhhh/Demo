@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!--一个package下面可以有多个action , namespace是package的路径  ，如果这样写，则登录的aciton要加前缀user-->
+    <package name="onlyadmin"  extends="json-default">
+
+        <!--        登录拦截器  ，要放在action上面-->
+        <interceptors>
+            <interceptor name="myInterceptor" class="com.zcx.intercepor.LoginInterceptor"></interceptor>
+            <interceptor name="roleInterceptor" class="com.zcx.intercepor.RoleInterceptor"></interceptor>
+            <interceptor name="role02Interceptor" class="com.zcx.intercepor.Role02Interceptor"></interceptor>
+            <!-- 拦截器栈 可以控制拦截器顺序 -->
+            <interceptor-stack name="admin">
+                <interceptor-ref name="myInterceptor"/>
+                <interceptor-ref name="roleInterceptor" />
+                <interceptor-ref name="defaultStack" />
+                <!--                <interceptor-ref name="authority" />-->
+            </interceptor-stack>
+            <interceptor-stack name="user">
+                <interceptor-ref name="myInterceptor"/>
+                <interceptor-ref name="role02Interceptor" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+
+        <!--                    name是jsp中的name，method中的是去哪个控制器下面的方法的名字-->
+        <action name="sayHi" class="com.zcx.cnotroller.HelloAction" method="sayHello">
+            <result name="success">/hello.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+<!--        成功之后跳到index-->
+        <action name="login" class="com.zcx.cnotroller.LoginAction" method="login1">
+            <result name="success" type="redirectAction">index</result>
+            <result name="input" type="redirectAction">index2</result>
+            <result name="error">/login.jsp</result>
+        </action>
+
+        <action name="index" class="com.zcx.cnotroller.IndexAction" method="getUsers">
+            <result name="success">/index.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <result name="input">/role.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+        <action name="index2" class="com.zcx.cnotroller.IndexAction" method="getUsers">
+            <result name="success" >/index2.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <result name="input">/role.jsp</result>
+            <interceptor-ref name="user" />
+        </action>
+
+
+<!--        跳转增加-->
+        <action name="toAdd" class="com.zcx.cnotroller.IndexAction" method="toAdd1">
+            <result name="success">/add.jsp</result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+
+        </action>
+<!--        增加-->
+        <action name="add" class="com.zcx.cnotroller.IndexAction" method="addUser">
+            <result name="success" type="json">
+                <param name="root">results</param>
+            </result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+<!--修改-->
+        <action name="toupdate" class="com.zcx.cnotroller.IndexAction" method="toUpdate">
+            <result name="success">/update.jsp</result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+        <action name="update" class="com.zcx.cnotroller.IndexAction" method="updateUser">
+            <result name="success" type="json">
+                <param name="root">results</param>
+            </result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+<!--        删除-->
+        <action name="del" class="com.zcx.cnotroller.IndexAction" method="del">
+            <result name="success" type="redirectAction">index</result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+<!--        根据id查找-->
+        <action name="select" class="com.zcx.cnotroller.IndexAction" method="select">
+            <result name="success">/index.jsp</result>
+            <result name="input">/role.jsp</result>
+            <result name="login" >/login.jsp</result>
+            <interceptor-ref name="admin"></interceptor-ref>
+        </action>
+    </package>
+
+
+</struts>

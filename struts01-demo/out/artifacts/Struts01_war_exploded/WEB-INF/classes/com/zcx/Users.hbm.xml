@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <!-- class 属性值 表示映射的实体 ,table表示的数据库 表名 -->
+    <class name="com.zcx.entity.User" table="user">
+<!--        主键列-->
+    <id name="id" type="int" column="id">
+
+<!--主键的生成策略
+ assigned 用户手动赋值
+    increment 只适用于 int long short 自动增长
+    sequence 才是真正的自动增长(序列号 )
+    native
+ -->
+        <generator class="increment"></generator>
+
+    </id>
+<property name="name" type="java.lang.String" column="name"></property>
+   <property name="password" type="string" column="password"></property>
+        <property name="role" type="int" column="role"></property>
+    </class>
+
+</hibernate-mapping>
